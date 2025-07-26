@@ -6,6 +6,21 @@ This service provides collision probability estimations for satellite operators.
 
 This assessment has been conducted in a collaborative environment with an AI assistant. This collaboration significantly enhanced the efficiency and breadth of the work, resulting in higher quality and timely delivery of the artifacts. I have, however, driven, supervised, reviewed, checked, and tested all the work presented.
 
+## Deliverables
+
+* Architecture and architecture diagram
+  * [Architecture description](#cloud-native-architecture)
+  * [AWS Architecture Diagram (PDF)](docs/aws%20architecture.pdf)
+* Infrastructure-as-code stub
+  * See [Infrastructure as Code](#infrastructure-as-code)
+* Development roadmap
+  * [Monthly roadmap](https://github.com/users/stefanofornari/projects/1/views/1)
+  * [Project repository](https://github.com/stefanofornari/ecosmic)
+  * [User Stories and bugs](https://github.com/stefanofornari/ecosmic/issues)
+  * [Project backlog](https://github.com/users/stefanofornari/projects/1/views/3)
+* FastAPI & CLI prototype with minimal logic and test coverage 
+  * See [Proof of Concept (PoC) Setup](#proof-of-concept-poc-setup)
+
 ## How to Use the Service
 
 ### Submitting an Estimate
@@ -15,7 +30,7 @@ To submit a Collision Data Message (CDM) for estimation, use the `POST /api/cpe`
 Example using `curl`:
 
 ```bash
-curl -X POST "http://YOUR_SERVER_ADDRESS/api/cpe?owner=YOUR_OWNER_ID" --data-binary "@docs/exemple.cdm"
+curl -X POST "http://YOUR_SERVER_ADDRESS/api/cpe?owner=YOUR_OWNER_ID" --data-binary "@docs/example.cdm"
 ```
 
 Replace `YOUR_SERVER_ADDRESS` with the actual address of your FastAPI application (e.g., `localhost:8000`) and `YOUR_OWNER_ID` with the relevant OWNER ID. The response will be a UUID, which is the `cpe_id` for tracking the job.
@@ -88,7 +103,7 @@ To understanding the health, performance, and runtime behavior of the service a 
   * S3: BucketSizeBytes, NumberOfObjects, AllRequests, GetRequests, PutRequests, 4xxErrors, 5xxErrors.
 * AWS X-Ray to trace the entire flow
 
-#### Objservability Features/Requirements
+#### Observability Features/Requirements
 
 Application specific observability requriements will be implemented. They are added to the user project user stories and labeled as observability. 
 
@@ -171,10 +186,10 @@ This will create the `cpe` executable at `build/cpe/cpe`.
 To run the `cpe` program directly from the command line, you can pipe the content of a CDM file into its standard input. For example:
 
 ```bash
-cat docs/exemple.cpe | ./build/bin/cpe
+cat docs/example.cpe | ./build/cpe/cpe
 ```
 
-This command will feed the content of `docs/exemple.cpe` to the `cpe` program, and its output (the estimated collision probability) will be printed to your terminal.
+This command will feed the content of `docs/example.cpe` to the `cpe` program, and its output (the estimated collision probability) will be printed to your terminal.
 
 To run the C++ tests:
 
