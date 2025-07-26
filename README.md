@@ -207,20 +207,20 @@ The PoC simulates a queue system using a simple directory with the following str
 
 - queue
   - in
-    - norad id 1
-    - norad id 2
+    - owner id 1
+    - owner id 2
     - ...
   - out
-    - norad id 1
-    - norad id 2
+    - owner id 1
+    - owner id 2
     - ...
   - done
-    - norad id 1
-    - norad id 2
+    - owner id 1
+    - owner id 2
     - ...
   - failed
-    - norad id 1
-    - norad id 2
+    - owner id 1
+    - owner id 2
     - ...
 
 Note that, as a simple access-control mechanism, the API accepts requests only for norads that have a directory created under queue/in.
