@@ -52,7 +52,7 @@ Replace `YOUR_SERVER_ADDRESS`, `YOUR_NORAD_ID`, and `YOUR_CPE_ID` with the appro
 A common and relatively simple approach for authentication is to use API keys. This method is suitable for many scenarios, especially for internal services, as it balances security with ease of implementation.
 Initially, we can implement basic API key authentication. In the future, the authentication mechanism can be extended to a more robust token-based approach (e.g., OAuth 2.0's authorization code flow), where a long-lived authorization key is used to acquire a short-lived access token..
 
-## CLoud Native Architecture
+## Cloud Native Architecture
 
 The service is designed as a cloud native service hosted on AWS infrastrucure.
 
@@ -88,7 +88,7 @@ To understanding the health, performance, and runtime behavior of the service a 
   * S3: BucketSizeBytes, NumberOfObjects, AllRequests, GetRequests, PutRequests, 4xxErrors, 5xxErrors.
 * AWS X-Ray to trace the entire flow
 
-#### CPU Objservability Features/Requirements
+#### Objservability Features/Requirements
 
 Application specific observability requriements will be implemented. They are added to the user project user stories and labeled as observability. 
 
@@ -120,6 +120,10 @@ What is missing:
 1. ALB Configuration
 
 ## Development
+
+### Project Management and Tracking
+
+The requirements are collected as User Stories or Tasks in the [Ecosmic Collision Probability Estimation Issue Tracker](https://github.com/stefanofornari/ecosmic/issues) and can be more easily viewed in the [Ecosmic Collision Probability Estimation Backlog](https://github.com/users/stefanofornari/projects/1/views/3). For a roadmap view, check out the [Ecosmic Collision Probability Estimation Monthly Roadmap](https://github.com/users/stefanofornari/projects/1/views/1).
 
 ### Project Summary and Structure
 
