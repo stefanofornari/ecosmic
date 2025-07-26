@@ -127,6 +127,15 @@ The requirements are collected as User Stories or Tasks in the [Ecosmic Collisio
 
 ### Project Summary and Structure
 
+To clone the repository and its submodules, use the following commands:
+
+```bash
+git clone https://github.com/stefanofornari/ecosmic
+cd ecosmic
+git submodule init
+git submodule update
+```
+
 The `ecosmic` project is organized into several top-level directories, each serving a specific purpose:
 
 *   **`api/`**: Houses the Python FastAPI application.
