@@ -124,10 +124,10 @@ async def get_cpe_status(owner: str = Query(..., alias="owner"), cpe_id: str = Q
     if not os.path.isdir(owner_out_dir):          
         raise HTTPException(status_code=403, detail="cpe status not allowed")
                                                                 
-    file_path = os.path.join(owner_out_dir, f"{cpe_id}.cpe")                                                  
+    file_path = os.path.join(owner_out_dir, f"{cpe_id}.out")                                                  
                                                                                                                  
     if not os.path.isfile(file_path):                                                                            
-        raise HTTPException(status_code=404, detail="cpe not yet available")                                     
+        raise HTTPException(status_code=404, detail="cpe result not yet available")                                     
                                                                                                                  
     async def file_iterator():                                                                                   
         async with aiofiles.open(file_path, mode="rb") as f:                                                     
