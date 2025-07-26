@@ -16,15 +16,15 @@ FAILED_DIR="${QUEUE_DIR}/failed"
 mkdir -p "$IN_DIR" "$OUT_DIR" "$DONE_DIR" "$FAILED_DIR"
 
 while true; do
-  # Find the first .cdm file in any subdirectory of IN_DIR
-  FILE=$(find "$IN_DIR" -type f -name "*.cdm" | head -n 1)
+  # Find the first .cpe file in any subdirectory of IN_DIR
+  FILE=$(find "$IN_DIR" -type f -name "*.cpe" | head -n 1)
 
   if [ -n "$FILE" ]; then
     echo "Processing file: $FILE"
 
     # Extract norad_id from the file path (assuming it's the immediate parent directory of the file)
     NORAD_ID=$(basename $(dirname "$FILE"))
-    FILENAME=$(basename "$FILE" .cdm)
+    FILENAME=$(basename "$FILE" .cpe)
 
     # Create output, done, and failed directories for the norad_id if they don't exist
     mkdir -p "${OUT_DIR}/${NORAD_ID}"
@@ -36,9 +36,9 @@ while true; do
     EXIT_CODE=$?
 
     if [ $EXIT_CODE -eq 0 ]; then
-      # Write output to .cpe file
-      echo "$COMMAND_OUTPUT" > "${OUT_DIR}/${NORAD_ID}/${FILENAME}.cpe"
-      echo "Output written to: ${OUT_DIR}/${NORAD_ID}/${FILENAME}.cpe"
+      # Write output to .out file
+      echo "$COMMAND_OUTPUT" > "${OUT_DIR}/${NORAD_ID}/${FILENAME}.out"
+      echo "Output written to: ${OUT_DIR}/${NORAD_ID}/${FILENAME}.out"
 
       # Move processed file to done directory
       mv "$FILE" "${DONE_DIR}/${NORAD_ID}/"
@@ -50,7 +50,7 @@ while true; do
       echo "File moved to: ${FAILED_DIR}/${NORAD_ID}/"
     fi
   else
-    echo "No .cdm files found. Waiting..."
+    echo "No .cpe files found. Waiting..."
   fi
 
   sleep 1

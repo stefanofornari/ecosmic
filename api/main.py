@@ -76,7 +76,7 @@ async def submit_cpe_job(owner: str | None = Query(None, alias="owner"), request
     if not owner:
         raise HTTPException(status_code=403, detail="job submission not allowed")
     request_uuid = uuid.uuid4()
-    file_path = os.path.join(BASE_QUEUE_DIR, "in", owner, f"{request_uuid}.cdm")
+    file_path = os.path.join(BASE_QUEUE_DIR, "in", owner, f"{request_uuid}.cpe")
 
     # Check if the owner directory exists
     owner_dir = os.path.join(BASE_QUEUE_DIR, "in", owner)

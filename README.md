@@ -166,15 +166,15 @@ make
 cd ..
 ```
 
-This will create the `cpe` executable at `build/bin/cpe`.
+This will create the `cpe` executable at `build/cpe/cpe`.
 
 To run the `cpe` program directly from the command line, you can pipe the content of a CDM file into its standard input. For example:
 
 ```bash
-cat docs/exemple.cdm | ./build/bin/cpe
+cat docs/exemple.cpe | ./build/bin/cpe
 ```
 
-This command will feed the content of `docs/exemple.cdm` to the `cpe` program, and its output (the estimated collision probability) will be printed to your terminal.
+This command will feed the content of `docs/exemple.cpe` to the `cpe` program, and its output (the estimated collision probability) will be printed to your terminal.
 
 To run the C++ tests:
 
@@ -203,7 +203,7 @@ python3 -m uvicorn api.main:app
 In a separate terminal, from the project root directory, start the dequeuer script. This script monitors the input queue, processes CDM files, and moves them to the appropriate output or failed directories.
 
 ```bash
-./dequeuer/dequeuer.sh "./build/bin/cpe" "queue"
+./dequeuer/dequeuer.sh "./build/cpe/cpe" "queue"
 ```
 
 This command starts the dequeuer, using the compiled C++ `cpe` executable to process the file content.
