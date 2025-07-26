@@ -1,0 +1,4 @@
+fastapi==0.111.0
+uvicorn==0.30.1
+aiofiles==23.2.1
+ccsds-ndm==1.2.0
