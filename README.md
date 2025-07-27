@@ -48,7 +48,7 @@ To retrieve the status or result of a previously submitted estimation job, use t
 Example using `curl`:
 
 ```bash
-curl -X GET "http://YOUR_SERVER_ADDRESS/api/cpe?norad_id=YOUR_OWNER_ID&cpe_id=YOUR_CPE_ID"
+curl -X GET "http://YOUR_SERVER_ADDRESS/api/cpe?owner=YOUR_OWNER_ID&cpe_id=YOUR_CPE_ID"
 ```
 
 Replace `YOUR_SERVER_ADDRESS`, `YOUR_OWNER_ID`, and `YOUR_CPE_ID` with the appropriate values.
@@ -56,11 +56,11 @@ Replace `YOUR_SERVER_ADDRESS`, `YOUR_OWNER_ID`, and `YOUR_CPE_ID` with the appro
 **Possible Status Codes:**
 *   `200 OK`: The CPE result is available. The response body contains the content of the `.cpe` file.
 *   `400 Bad Request`: `cpe_id` is missing.
-*   `403 Forbidden`: CPE status not allowed (e.g., `norad_id` is missing or the provided one is not allowed).
-*   `404 Not Found`: The CPE result is not yet available or the `cpe_id` does not exist for the given `norad_id`.
+*   `403 Forbidden`: CPE status not allowed (e.g., `owner` is missing or the provided one is not allowed).
+*   `404 Not Found`: The CPE result is not yet available or the `cpe_id` does not exist for the given `owner`.
 *   `500 Internal Server Error`: An unexpected error occurred during retrieval.
 
-Replace `YOUR_SERVER_ADDRESS`, `YOUR_NORAD_ID`, and `YOUR_CPE_ID` with the appropriate values.
+Replace `YOUR_SERVER_ADDRESS`, `YOUR_OWNER_ID`, and `YOUR_CPE_ID` with the appropriate values.
 
 ### Authentication
 
@@ -167,9 +167,22 @@ The `ecosmic` project is organized into several top-level directories, each serv
 
 ## Proof of Concept (PoC) Setup
 
+### Implementation Notes
+
+1. Due to some ambiguity in the requirements the current implementation does not implement the following, which has been tracked by requirement [CPE result format](https://github.com/stefanofornari/ecosmic/issues/3):
+   > The algorithm shall produce as output a CCSDS CDM file, containing the same 
+     information of the one provided by the user. The fields "ORIGINATOR" and 
+     "COLLISION_PROBABILITY" shall be updated, namely, with "Ecosmic" and the result 
+     of the algorithm. The delivery mechanism is up to you to decide
+1. The following requirement has not been implemented yet and tracked in [CPE request authorization](https://github.com/stefanofornari/ecosmic/issues/2):
+   > The endpoint shall be usable only by customers who own the space object identified
+     as primary in the CCSDS CDM.
+
+### Project Setup
+
 To set up and run the PoC, follow these steps:
 
-### 1. Build the Collision Probability Estimator (CPE) Program
+#### 1. Build the Collision Probability Estimator (CPE) Program
 
 From the project root directory, create a `build` directory and compile the C++ `cpe` program using CMake:
 
@@ -197,7 +210,7 @@ To run the C++ tests:
 ./build/tests/runTests
 ```
 
-### 2. Install Python Dependencies
+#### 2. Install Python Dependencies
 
 Navigate to the `api` directory and install the required Python packages:
 
@@ -205,7 +218,7 @@ Navigate to the `api` directory and install the required Python packages:
 pip install -r api/requirements.txt
 ```
 
-### 3. Start the API Process
+#### 3. Start the API Process
 
 From the project root directory, start the FastAPI application. This will run the API server, typically on `http://localhost:8000`.
 
@@ -213,7 +226,7 @@ From the project root directory, start the FastAPI application. This will run th
 python3 -m uvicorn api.main:app
 ```
 
-### 4. Start the Dequeuer Process
+#### 4. Start the Dequeuer Process
 
 In a separate terminal, from the project root directory, start the dequeuer script. This script monitors the input queue, processes CDM files, and moves them to the appropriate output or failed directories.
 
@@ -247,7 +260,7 @@ The PoC simulates a queue system using a simple directory with the following str
     - owner id 2
     - ...
 
-Note that, as a simple access-control mechanism, the API accepts requests only for norads that have a directory created under queue/in.
+Note that, as a simple access-control mechanism, the API accepts requests only for owners that have a directory created under queue/in.
 
 ### E2E example
 
@@ -260,14 +273,14 @@ Being in the project directory:
    ```
 1. run the dequeuer
    ```bash
-   ./dequeuer/dequeuer.sh "./build/bin/cpe" "queue"
+   ./dequeuer/dequeuer.sh "./build/cpe/cpe" "queue"
    ```
 1. submit a cpe request
    ```bash
-   curl -X POST "http://127.0.0.1:8000/api/cpe?norad_id=123abc" -H "Content-Type: text/plain" --data-binary "@docs/example1.cdm"
+   curl -X POST "http://127.0.0.1:8000/api/cpe?owner=123abc" -H "Content-Type: text/plain" --data-binary "@docs/example.cdm"
    ```
    take note of the returned CPE_ID
 1. check the status of the request/retrieve the estimate
    ```bash
-   curl "http://127.0.0.1:8000/api/cpe?norad_id=123abc&cpe_id=<CPE_ID>"
+   curl "http://127.0.0.1:8000/api/cpe?owner=123abc&cpe_id=<CPE_ID>"
    ```
